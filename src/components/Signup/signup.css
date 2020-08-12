@@ -1,0 +1,99 @@
+.content {
+  display: flex;
+  flex: 0.65;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.side{
+  display: flex;
+  flex: 0.35;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #36c997;
+  border-radius:  15px;
+}
+
+.content h1 {
+  font-size: 3em;
+  color:#36c997;
+  margin: 4%;
+}
+.side h1 {
+  font-size: 2.5em;
+  color: white;
+  margin: 4%;
+}
+
+.social-buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 40%;
+  margin-bottom: 5%;
+}
+
+.social-button {
+  display: flex;
+  width: 50px;
+  height: 50px;
+  border: solid 1px lightgray;
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.social-button a {
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;
+  font-size: 25px;
+}
+
+label {
+  color: gray;
+  font-size: 14px;
+}
+
+input {
+  width: 40%;
+  height: 7.5%;
+  margin: 10px 0px;
+  background-color: #eeeded;
+  border: none;
+  border-radius: 3px;
+  padding-left: 10px;
+}
+
+a {
+  text-decoration: none;
+  color:#acacac;
+}
+
+.content button {
+  width: 20%;
+  color: white;
+  background-color: #36c997;
+  border: none;
+  border-radius: 25px;
+  height: 7%;
+  font-size: 15px;
+  margin-top: 5%;
+}
+
+.side p {
+  color: white;
+  text-align: center;
+}
+
+.side button {
+  width: 40%;
+  color:white;
+  background-color: transparent;
+  border: solid 2px white;
+  border-radius: 25px;
+  height: 7%;
+}
