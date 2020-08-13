@@ -1,25 +1,30 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import Main from './components/Main';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import SideDrawer from './components/SideDrawer';
-import { useState } from 'react';
 
+const AppContainer = styled.div`
+  height: 100%;
+  position: absolute;
+  width: 90%;
+  padding: 0 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 
 function App() {
   const [open, setOpen] = useState(false);
   const [login, setLogin] = useState(true);
   const [translate, setTranslate] = useState(false);
 
-  const toggleLogin = () => {
-    setLogin(state => !state);
-  }
   const toggleOpen = () => {
     setOpen(state => !state);
   }
   return (
-    <div className="app">
+    <AppContainer>
       <Navbar
         toggleOpen={toggleOpen}
         setLogin={setLogin}
@@ -41,9 +46,8 @@ function App() {
         setTranslate={setTranslate}
       />
       <Footer />
-    </div>
-  )
-
+    </AppContainer>
+  );
 }
 
 export default App;
