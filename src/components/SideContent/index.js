@@ -8,6 +8,9 @@ const SideContainer = styled.div`
   border-radius: 15px;
   transform: ${props => props.transform} ;
   transition: transform linear 500ms ;
+  @media only screen and (max-width: 580px) {
+      display: none;
+  }
 `;
 
 const InnerSide = styled.div`
@@ -82,7 +85,7 @@ export default function SideContent({ login, translate, setTranslate, setLogin }
     <SideContainer
       transform={transform}
       onTransitionEnd={(e) => {
-        if (e.target == e.currentTarget) {
+        if (e.target === e.currentTarget) {
           setTranslate(false);
         }
       }}

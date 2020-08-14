@@ -4,17 +4,28 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
 const Content = styled.div`
   flex: 0.65;
-  transform: ${props => props.login ? "translateX(0%)" : "translateX(54%)"};
-  transition: transform linear 700ms ;  
+  transform: ${props => props.login ? "translateX(0)" : "translateX(54%)"};
+  transition: transform linear 700ms ;
+  @media screen and (max-width: 580px) {
+    transform: translateX(0);
+  }
 `;
 
-const InnerContent = styled.div`
+const Container = styled.div`
   display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const Section = styled(Container)`
   flex-direction: column;
+  justify-content: center;
+`;
+
+const InnerContent = styled(Section)`
   width: 100%;
   height: 100%;
   justify-content: space-evenly;
-  align-items: center;
   &.content-enter {
     opacity: 0;
     transform: scale(0.9);
@@ -41,53 +52,6 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const SocialContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-`;
-
-const SocialButton = styled.button`
-  width: 44px;
-  height: 44px;
-  border: solid 2px #36c997;
-  font-size: x-large;
-  font-weight: bolder;
-  color: #36c997;
-  border-radius: 26px;
-  background: transparent;
-  margin-right: 10px;
-  margin-left: 10px;
-  :hover, :focus {
-    color: white;
-    background: #36c997;
-    cursor: pointer;
-    outline: none;
-  }
-`;
-
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Label = styled.label`
-  color: gray;
-  font-size: 14px;
-`;
-
-const Input = styled.input`
-  width: 200px;
-  height: 35px;
-  margin: 10px 0px;
-  background-color: transparent;
-  border: solid 2px white;
-  border-radius: 15px;
-  padding-left: 10px;
-`;
-
 const Button = styled.button`
   color:#36c997 ;
   background-color: transparent;
@@ -102,6 +66,33 @@ const Button = styled.button`
     background: #36c997;
     cursor: pointer;
     outline: none;
+  }
+`;
+
+const SocialButton = styled(Button)`
+  width: 44px;
+  height: 44px;
+  font-size: x-large;
+  font-weight: bolder;
+`;
+
+
+const Label = styled.label`
+  color: gray;
+  font-size: 14px;
+`;
+
+const Input = styled.input`
+  width: 200px;
+  height: 35px;
+  margin: 10px 0px;
+  background-color: transparent;
+  border: solid 2px white;
+  border-radius: 15px;
+  padding-left: 10px;
+  :focus {
+    outline: none;
+    border-color: #36c997;
   }
 `;
 
@@ -122,11 +113,11 @@ export default function MainContent({ login }) {
           {login ? (
             <InnerContent>
               <Title>Sign In</Title>
-              <SocialContainer>
+              <Container>
                 <SocialButton>f</SocialButton>
                 <SocialButton>G</SocialButton>
                 <SocialButton>in</SocialButton>
-              </SocialContainer>
+              </Container>
               <Section>
                 <Label>or use your email account:</Label>
                 <Input placeholder="Email" />
@@ -140,11 +131,11 @@ export default function MainContent({ login }) {
           ) : (
               <InnerContent>
                 <Title>Create Account</Title>
-                <SocialContainer>
+                <Container>
                   <SocialButton>f</SocialButton>
                   <SocialButton>G</SocialButton>
                   <SocialButton>in</SocialButton>
-                </SocialContainer>
+                </Container>
                 <Section>
                   <Label>or use your email for registration:</Label>
                   <Input placeholder="Name" />

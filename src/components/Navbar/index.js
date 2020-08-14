@@ -14,12 +14,18 @@ const Link = styled.a`
   margin: 0 10px;
   text-decoration: none;
   font-size: large;
+  :hover {
+    font-weight: bold;
+  }
 `;
 
 const Brand = styled(Link)`
   font-size: x-large;
   font-weight: bold;
   align-self: center;
+  :hover {
+    font-weight: 900;
+  }
 `;
 
 const Left = styled.div`

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Main from './components/Main';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import SideDrawer from './components/SideDrawer';
+import Drawer from './components/Drawer';
 
 const AppContainer = styled.div`
   height: 100%;
@@ -32,7 +32,7 @@ function App() {
         translate={translate}
         setTranslate={setTranslate}
       />
-      <SideDrawer
+      <Drawer
         open={open}
         toggleOpen={toggleOpen}
         setLogin={setLogin}
