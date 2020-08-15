@@ -72,6 +72,7 @@ const Button = styled.button`
 const SocialButton = styled(Button)`
   width: 44px;
   height: 44px;
+  border-radius: 50%;
   font-size: x-large;
   font-weight: bolder;
 `;

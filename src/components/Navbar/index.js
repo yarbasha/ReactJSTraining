@@ -7,6 +7,7 @@ const NavbarContainer = styled.div`
   border-radius:0px 0px 15px 15px;
   height: 80px;
   min-height: 60px;
+  box-shadow: 5px 5px 10px 0px #36c997;
 `;
 
 const Link = styled.a`

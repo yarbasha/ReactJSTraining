@@ -5,11 +5,12 @@ import SideContent from '../SideContent';
 
 const MainContainer = styled.div`
   display: flex;
-  flex: 0.75;
-  flex-direction: row;
-  justify-content: center;
+  flex: 0.9;
+  margin-top: 5px;
+  margin-bottom: 5px;
   border: solid 1px #36c997;
   border-radius: 15px;
+  box-shadow: 10px 5px 10px 0px #a8fce0;
 `;
 
 

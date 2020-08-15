@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Main from './components/Main';
+import ChatContianer from './components/ChatContainer';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Drawer from './components/Drawer';
@@ -8,7 +9,7 @@ import Drawer from './components/Drawer';
 const AppContainer = styled.div`
   height: 100%;
   position: absolute;
-  width: 90%;
+  width: 100%;
   padding: 0 5%;
   display: flex;
   flex-direction: column;
@@ -39,12 +40,13 @@ function App() {
         translate={translate}
         setTranslate={setTranslate}
       />
-      <Main
+      <ChatContianer />
+      {/* <Main
         login={login}
         setLogin={setLogin}
         translate={translate}
         setTranslate={setTranslate}
-      />
+      /> */}
       <Footer />
     </AppContainer>
   );
