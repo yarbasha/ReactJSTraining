@@ -8,8 +8,10 @@ const FooterContainer = styled.div`
   background: #36c997;
   border-radius:15px 15px 0px 0px;
   height: 80px;
-  min-height: 60px;
   box-shadow: 5px -5px 10px 0px #a8fce0;
+  @media screen and (max-height: 500px) {
+    height: 50px;
+  }
 `;
 
 const List = styled.ul`

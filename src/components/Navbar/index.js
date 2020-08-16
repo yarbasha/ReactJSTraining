@@ -6,8 +6,10 @@ const NavbarContainer = styled.div`
   background: #36c997;
   border-radius:0px 0px 15px 15px;
   height: 80px;
-  min-height: 60px;
   box-shadow: 5px 5px 10px 0px #36c997;
+  @media screen and (max-height: 500px) {
+    height: 50px;
+  }
 `;
 
 const Link = styled.a`

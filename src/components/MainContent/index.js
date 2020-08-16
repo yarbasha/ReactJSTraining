@@ -8,6 +8,7 @@ const Content = styled.div`
   transition: transform linear 700ms ;
   @media screen and (max-width: 580px) {
     transform: translateX(0);
+    flex: 1;
   }
 `;
 

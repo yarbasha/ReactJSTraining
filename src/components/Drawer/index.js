@@ -11,7 +11,7 @@ const DrawerContainer = styled.div`
   transform: ${props => props.open ? "translateX(0)" : "translateX(-100%)"};
   transition: transform linear 700ms;
   background-color: #36c997ee;
-  @media only screen and (min-width: 580px) {
+  @media screen and (min-width: 580px) {
     display: none;
   }
 `;

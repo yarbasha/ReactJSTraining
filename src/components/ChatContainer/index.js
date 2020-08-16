@@ -5,7 +5,7 @@ import Users from '../Users';
 
 const ChatContianer = styled.div`
   display: flex;
-  flex: 0.9;
+  flex: 1;
   margin-top: 20px;
   margin-bottom: 20px;
   border: solid 1px #36c997;

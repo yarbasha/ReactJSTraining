@@ -1,10 +1,15 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
   flex: 0.7;
   flex-direction: column;
+  padding-top: 5px;
+  padding-right: 5px;
+  @media screen and (max-width: 580px) {
+    flex: 1;
+  }
 `;
 
 const Input = styled.input`
@@ -36,13 +41,24 @@ const Button = styled.button`
 `;
 
 const MessagesContainer = styled(Container)`
-  flex: 1;
+  flex: 1 0 0;
   align-items: flex-start;
-  max-height: 450px;
   overflow-y: scroll;
-::-webkit-scrollbar {
-  width: 0px;
-}
+  ::-webkit-scrollbar {
+    width: 12px;
+    display: ${props => props.scroll ? "null" : "none"};
+  }
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 10px #36c997; 
+  }
+  @media screen and (max-width: 580px) {
+    flex: 1 0 0;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -60,7 +76,6 @@ const Message = styled.p`
   color: #36c997;
   font-weight: 500;
   font-size: large;
-  // -webkit-text-stroke: 1px #36c997;
   &::after {
     content:  "${props => props.text}";
   }
@@ -69,13 +84,23 @@ const Message = styled.p`
 
 export default function Chat() {
   const [message, setMessage] = useState(""),
-    [messages, setMessages] = useState(["Hi", "how r u?", "hello"]),
+    [messages, setMessages] = useState(["Hi", "how r u?", "Hello"]),
     [divHeight, setDivHeight] = useState(0),
+    [scroll, setScroll] = useState(false),
     chatMessages = useRef();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    if (chatMessages.current.scrollHeight > chatMessages.current.clientHeight) {
+      setScroll(true);
+    }
+    else {
+      setScroll(false);
+    }
+    if (divHeight === 0) {
+      setDivHeight(chatMessages.current.scrollHeight);
+    }
     chatMessages.current.scrollTop = divHeight;
-  }, [divHeight]);
+  }, [divHeight, messages]);
 
   const send = () => {
     if (message !== "") {
@@ -85,16 +110,18 @@ export default function Chat() {
     }
   };
 
+
+
   return (
     <Container>
-      <MessagesContainer ref={chatMessages}>
+      <MessagesContainer scroll={scroll} ref={chatMessages}>
         {messages.map((item, index) => <Message key={index} text={item} />)}
       </MessagesContainer>
       <InputContainer>
         <Input
           value={message}
           placeholder="Type a message..."
-          onKeyPress={e => { if (e.key === 'Enter') { send() } }}
+          onKeyPress={e => { if (e.key === 'Enter') send() }}
           onChange={e => setMessage(e.currentTarget.value)}
         />
         <Button onClick={send}>send</Button>
