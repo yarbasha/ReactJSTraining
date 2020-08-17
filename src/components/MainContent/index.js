@@ -48,23 +48,23 @@ const InnerContent = styled(Section)`
 
 const Title = styled.h1`
   font-size: 3em;
-  color:#36c997;
+  color: ${props => props.theme.primary};
   margin: 0;
   text-align: center;
 `;
 
 const Button = styled.button`
-  color:#36c997 ;
+  color: ${props => props.theme.primary} ;
   background-color: transparent;
-  border: solid 2px #36c997;
+  border: solid 2px ${props => props.theme.primary};
   border-radius: 25px;
   font-size: 15px;
   margin: 10px;
   height: 35px;
   width: 216px;
   :hover, :focus {
-    color: white;
-    background: #36c997;
+    color: ${props => props.theme.secondary};
+    background: ${props => props.theme.primary};
     cursor: pointer;
     outline: none;
   }
@@ -89,12 +89,12 @@ const Input = styled.input`
   height: 35px;
   margin: 10px 0px;
   background-color: transparent;
-  border: solid 2px white;
+  border: solid 2px ${props => props.theme.secondary};
   border-radius: 15px;
   padding-left: 10px;
   :focus {
     outline: none;
-    border-color: #36c997;
+    border-color: ${props => props.theme.primary};
   }
 `;
 

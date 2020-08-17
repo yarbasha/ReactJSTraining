@@ -10,7 +10,7 @@ const DrawerContainer = styled.div`
   z-index: 200;
   transform: ${props => props.open ? "translateX(0)" : "translateX(-100%)"};
   transition: transform linear 700ms;
-  background-color: #36c997ee;
+  background-color: ${props => props.theme.primary}dd;
   @media screen and (min-width: 580px) {
     display: none;
   }
@@ -36,7 +36,7 @@ const Item = styled.li`
 `;
 
 const Link = styled.a`
-  color: white;
+  color: ${props => props.theme.secondary};
   font-size: x-large;
   text-decoration: none;
 `;

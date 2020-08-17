@@ -5,8 +5,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 0.3;
-  background-color: #36c997;
+  background-color: ${props => props.theme.primary};
   border-radius: 15px;
+  box-shadow: 5px 0 15px 0px ${props => props.theme.primary};
   padding: 15px 15px;
   @media screen and (max-width: 580px) {
     display: none;
@@ -21,12 +22,12 @@ const UsersContainer = styled.div`
     display: ${props => props.scroll ? "null" : "none"};
     }
   ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px #fff; 
+    box-shadow: inset 0 0 6px ${props => props.theme.secondary}; 
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 10px #fff;
+    box-shadow: inset 0 0 10px ${props => props.theme.secondary};
   }
 `;
 
@@ -34,11 +35,12 @@ const UserContainer = styled.div`
   display: flex;
   align-items: center;
   min-height: 40px;
-  background-color: #fff;
-  color: #36c997;
+  background-color: ${props => props.theme.secondary};
+  color: ${props => props.theme.primary};
   border-radius: 10px;
   margin: 8px 5px;
   font-size: large;
+  box-shadow: inset 0px 0px 8px;
   overflow: hidden;
 `;
 
@@ -76,7 +78,6 @@ export default function Users() {
       setScroll(false);
     }
   }, [users]);
-
 
   return (
     <Container>

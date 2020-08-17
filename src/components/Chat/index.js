@@ -13,11 +13,12 @@ const Container = styled.div`
 `;
 
 const Input = styled.input`
-  width: 90%;
+  flex-grow: 1;
   min-height: 50px;
-  border: solid 1px #36c997 ;
+  border: solid 1px ${props => props.theme.primary};
   background-color: transparent;
   padding-left: 15px;
+  margin-right: 5px;
   border-radius: 15px;
   :focus {
     outline: none;
@@ -26,17 +27,19 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  color: #36c997;
+  color: ${props => props.theme.primary};
   font-weight: 700;
   width: 50px;
   background-color: transparent;
-  border: solid 1px #36c997;
+  border: solid 1px ${props => props.theme.primary};
   border-radius: 50%;
   cursor: pointer;
+  box-shadow: inset 0px 0px 8px;
   :hover, :focus {
     outline: none;
-    color: #fff;
-    background-color: #36c997;
+    color: ${props => props.theme.secondary};
+    background-color: ${props => props.theme.primary};
+    box-shadow: 3px 3px 8px ${props => props.theme.primary};
   }
 `;
 
@@ -49,12 +52,12 @@ const MessagesContainer = styled(Container)`
     display: ${props => props.scroll ? "null" : "none"};
   }
   ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 10px #36c997; 
+    box-shadow: inset 0 0 10px ${props => props.theme.primary};
   }
   @media screen and (max-width: 580px) {
     flex: 1 0 0;
@@ -64,16 +67,15 @@ const MessagesContainer = styled(Container)`
 const InputContainer = styled.div`
   display: flex;
   padding: 5px;
-  justify-content: space-around;
 `;
 
 const Message = styled.p`
   background-color: transparent;
-  border: solid 1.5px #36c997;
+  border: solid 1.5px ${props => props.theme.primary};
   border-radius: 15px;
   margin: 2px 10px;
   padding: 5px 15px;
-  color: #36c997;
+  color: ${props => props.theme.primary};
   font-weight: 500;
   font-size: large;
   &::after {
@@ -83,39 +85,75 @@ const Message = styled.p`
 
 
 export default function Chat() {
+
   const [message, setMessage] = useState(""),
-    [messages, setMessages] = useState(["Hi", "how r u?", "Hello"]),
-    [divHeight, setDivHeight] = useState(0),
+    [messages, setMessages] = useState([]),
+    [allMessages, setAllMessages] = useState([]),
     [scroll, setScroll] = useState(false),
-    chatMessages = useRef();
+    [scrollTop, setScrollTop] = useState(false),
+    messagesDiv = useRef();
 
   useEffect(() => {
-    if (chatMessages.current.scrollHeight > chatMessages.current.clientHeight) {
+    fetch("https://desolate-river-35422.herokuapp.com/allMessages?page=1&limit=2&name=12")
+      .then(response => response.json())
+      .then(data => {
+        setAllMessages(data.rooms[0].messages.map(item => item.text));
+      })
+      .catch(error => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    const start = allMessages.length - messages.length - 20 > 0 ? allMessages.length - messages.length - 20 : 0;
+    const end = allMessages.length - messages.length;
+    setMessages(state => [...allMessages.slice(start, end), ...state]);
+    setScrollTop(false);
+  }, [allMessages])
+
+  useEffect(() => {
+    if (messagesDiv.current.scrollHeight > messagesDiv.current.clientHeight) {
       setScroll(true);
     }
     else {
       setScroll(false);
     }
-    if (divHeight === 0) {
-      setDivHeight(chatMessages.current.scrollHeight);
+    if (scrollTop) {
+      messagesDiv.current.scrollTop = 0;
+    } else {
+      messagesDiv.current.scrollTop = messagesDiv.current.scrollHeight;
     }
-    chatMessages.current.scrollTop = divHeight;
-  }, [divHeight, messages]);
+  }, [messages, scrollTop]);
 
   const send = () => {
     if (message !== "") {
       setMessages(state => [...state, message]);
+      setScrollTop(false);
       setMessage("");
-      setDivHeight(chatMessages.current.scrollHeight);
     }
   };
 
-
+  const get10Messages = () => {
+    const start = allMessages.length - messages.length - 10 > 0 ? allMessages.length - messages.length - 10 : 0;
+    const end = allMessages.length - messages.length;
+    if (end > 0) {
+      setMessages(state => [...allMessages.slice(start, end), ...state]);
+      setScrollTop(true);
+    } else {
+      return;
+    }
+  };
 
   return (
     <Container>
-      <MessagesContainer scroll={scroll} ref={chatMessages}>
-        {messages.map((item, index) => <Message key={index} text={item} />)}
+      <MessagesContainer
+        scroll={scroll}
+        ref={messagesDiv}
+        onScroll={e => {
+          if (e.currentTarget.scrollTop === 0) {
+            get10Messages();
+          }
+        }}
+      >
+        {messages.map((item, index) => <Message key={index} k={index} text={item} />)}
       </MessagesContainer>
       <InputContainer>
         <Input

@@ -3,17 +3,17 @@ import styled from 'styled-components';
 
 const NavbarContainer = styled.div`
   display: flex;
-  background: #36c997;
+  background: ${props => props.theme.primary};
   border-radius:0px 0px 15px 15px;
   height: 80px;
-  box-shadow: 5px 5px 10px 0px #36c997;
+  box-shadow: 0px 0px 20px 5px ${props => props.theme.primary};
   @media screen and (max-height: 500px) {
     height: 50px;
   }
 `;
 
 const Link = styled.a`
-  color: #fff;
+  color: ${props => props.theme.secondary};
   margin: 0 10px;
   text-decoration: none;
   font-size: large;

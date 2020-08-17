@@ -5,10 +5,10 @@ const FooterContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #36c997;
+  background: ${props => props.theme.primary};
   border-radius:15px 15px 0px 0px;
   height: 80px;
-  box-shadow: 5px -5px 10px 0px #a8fce0;
+  box-shadow: 0px 0px 20px 5px #a8fce0;
   @media screen and (max-height: 500px) {
     height: 50px;
   }
@@ -27,7 +27,7 @@ const Item = styled.li`
 `;
 
 const Link = styled.a`
-  color: white;
+  color: ${props => props.theme.secondary};
   font-size: large;
   text-decoration: none;
   :hover {

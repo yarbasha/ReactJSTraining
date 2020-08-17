@@ -4,7 +4,7 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const SideContainer = styled.div`
   flex: 0.35;
-  background-color: #36c997;
+  background-color: ${props => props.theme.primary};
   border-radius: 15px;
   transform: ${props => props.transform} ;
   transition: transform linear 500ms ;
@@ -42,28 +42,28 @@ const InnerSide = styled.div`
 
 const Title = styled.h1`
   font-size: 2.5em;
-  color: white;
+  color: ${props => props.theme.secondary};
   margin: 30px;
 `;
 
 const Text = styled.p`
-  color: white;
+  color: ${props => props.theme.secondary};
   margin-left: 10px;
   margin-right: 10px;
 `;
 
 const Button = styled.button`
   width: 216px;
-  color:white;
+  color:${props => props.theme.secondary};
   background-color: transparent;
-  border: solid 2px white;
+  border: solid 2px ${props => props.theme.secondary};
   border-radius: 25px;
   height: 35px;
   margin-left: 10px;
   margin-right: 10px;
   :hover, :focus {
-    color: #36c997;
-    background: white;
+    color: ${props => props.theme.primary};
+    background: ${props => props.theme.secondary};
     cursor: pointer;
     outline: none;
   }
