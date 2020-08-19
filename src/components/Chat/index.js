@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { Button, Input } from '../../elements';
 
 const Container = styled.div`
   display: flex;
@@ -12,44 +13,26 @@ const Container = styled.div`
   }
 `;
 
-const Input = styled.input`
+const ChatInput = styled(Input)`
   flex-grow: 1;
   min-height: 50px;
-  border: solid 1px ${props => props.theme.primary};
-  background-color: transparent;
-  padding-left: 15px;
-  margin-right: 5px;
-  border-radius: 15px;
-  :focus {
-    outline: none;
-    border-width: 2px;
-  }
+  margin: 0px 5px 0px;
 `;
 
-const Button = styled.button`
-  color: ${props => props.theme.primary};
+const SendButton = styled(Button)`
+  border-width: 1px;
   font-weight: 700;
   width: 50px;
-  background-color: transparent;
-  border: solid 1px ${props => props.theme.primary};
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: inset 0px 0px 8px;
-  :hover, :focus {
-    outline: none;
-    color: ${props => props.theme.secondary};
-    background-color: ${props => props.theme.primary};
-    box-shadow: 3px 3px 8px ${props => props.theme.primary};
-  }
+  height: 50px;
+  margin: 0px;
 `;
 
 const MessagesContainer = styled(Container)`
   flex: 1 0 0;
   align-items: flex-start;
-  overflow-y: scroll;
+  overflow: auto;
   ::-webkit-scrollbar {
     width: 12px;
-    display: ${props => props.scroll ? "null" : "none"};
   }
   ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
@@ -57,7 +40,7 @@ const MessagesContainer = styled(Container)`
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    box-shadow: inset 0 0 10px ${props => props.theme.primary};
+    box-shadow: inset 0 0 10px ${({ theme }) => theme.primary};
   }
   @media screen and (max-width: 580px) {
     flex: 1 0 0;
@@ -67,15 +50,17 @@ const MessagesContainer = styled(Container)`
 const InputContainer = styled.div`
   display: flex;
   padding: 5px;
+  align-items: center;
+
 `;
 
 const Message = styled.p`
   background-color: transparent;
-  border: solid 1.5px ${props => props.theme.primary};
+  border: solid 1.5px ${({ theme }) => theme.primary};
   border-radius: 15px;
   margin: 2px 10px;
   padding: 5px 15px;
-  color: ${props => props.theme.primary};
+  color: ${({ theme }) => theme.primary};
   font-weight: 500;
   font-size: large;
   &::after {
@@ -89,7 +74,6 @@ export default function Chat() {
   const [message, setMessage] = useState(""),
     [messages, setMessages] = useState([]),
     [allMessages, setAllMessages] = useState([]),
-    [scroll, setScroll] = useState(false),
     [scrollTop, setScrollTop] = useState(false),
     messagesDiv = useRef();
 
@@ -97,27 +81,17 @@ export default function Chat() {
     fetch("https://desolate-river-35422.herokuapp.com/allMessages?page=1&limit=2&name=12")
       .then(response => response.json())
       .then(data => {
-        setAllMessages(data.rooms[0].messages.map(item => item.text));
+        const textMessages = data.rooms[0].messages.map(item => item.text);
+        setAllMessages(textMessages);
+        setMessages(state => [...textMessages.slice(textMessages.length - 20, textMessages.length), ...state]);
+        setScrollTop(false);
       })
       .catch(error => console.log(error));
   }, []);
 
   useEffect(() => {
-    const start = allMessages.length - messages.length - 20 > 0 ? allMessages.length - messages.length - 20 : 0;
-    const end = allMessages.length - messages.length;
-    setMessages(state => [...allMessages.slice(start, end), ...state]);
-    setScrollTop(false);
-  }, [allMessages])
-
-  useEffect(() => {
-    if (messagesDiv.current.scrollHeight > messagesDiv.current.clientHeight) {
-      setScroll(true);
-    }
-    else {
-      setScroll(false);
-    }
     if (scrollTop) {
-      messagesDiv.current.scrollTop = 0;
+      messagesDiv.current.scrollTop = 5;
     } else {
       messagesDiv.current.scrollTop = messagesDiv.current.scrollHeight;
     }
@@ -131,7 +105,7 @@ export default function Chat() {
     }
   };
 
-  const get10Messages = () => {
+  const getTenMessages = () => {
     const start = allMessages.length - messages.length - 10 > 0 ? allMessages.length - messages.length - 10 : 0;
     const end = allMessages.length - messages.length;
     if (end > 0) {
@@ -145,24 +119,19 @@ export default function Chat() {
   return (
     <Container>
       <MessagesContainer
-        scroll={scroll}
         ref={messagesDiv}
-        onScroll={e => {
-          if (e.currentTarget.scrollTop === 0) {
-            get10Messages();
-          }
-        }}
+        onScroll={({ currentTarget }) => currentTarget.scrollTop === 0 && getTenMessages()}
       >
         {messages.map((item, index) => <Message key={index} k={index} text={item} />)}
       </MessagesContainer>
       <InputContainer>
-        <Input
+        <ChatInput
           value={message}
           placeholder="Type a message..."
           onKeyPress={e => { if (e.key === 'Enter') send() }}
           onChange={e => setMessage(e.currentTarget.value)}
         />
-        <Button onClick={send}>send</Button>
+        <SendButton onClick={send}>send</SendButton>
       </InputContainer>
     </Container>
   );

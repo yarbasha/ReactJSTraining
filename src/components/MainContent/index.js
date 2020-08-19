@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
+import { Button, Input } from "../../elements";
 
 const Content = styled.div`
   flex: 0.65;
@@ -27,6 +28,15 @@ const InnerContent = styled(Section)`
   width: 100%;
   height: 100%;
   justify-content: space-evenly;
+  &.content-appear {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  &.content-appear-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+  }
   &.content-enter {
     opacity: 0;
     transform: scale(0.9);
@@ -53,23 +63,6 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const Button = styled.button`
-  color: ${props => props.theme.primary} ;
-  background-color: transparent;
-  border: solid 2px ${props => props.theme.primary};
-  border-radius: 25px;
-  font-size: 15px;
-  margin: 10px;
-  height: 35px;
-  width: 216px;
-  :hover, :focus {
-    color: ${props => props.theme.secondary};
-    background: ${props => props.theme.primary};
-    cursor: pointer;
-    outline: none;
-  }
-`;
-
 const SocialButton = styled(Button)`
   width: 44px;
   height: 44px;
@@ -80,22 +73,8 @@ const SocialButton = styled(Button)`
 
 
 const Label = styled.label`
-  color: gray;
-  font-size: 14px;
-`;
-
-const Input = styled.input`
-  width: 200px;
-  height: 35px;
-  margin: 10px 0px;
-  background-color: transparent;
-  border: solid 2px ${props => props.theme.secondary};
-  border-radius: 15px;
-  padding-left: 10px;
-  :focus {
-    outline: none;
-    border-color: ${props => props.theme.primary};
-  }
+  color: ${props => props.theme.primary};
+  font-size: 15px;
 `;
 
 const Link = styled.a`
@@ -111,6 +90,7 @@ export default function MainContent({ login }) {
           timeout={900}
           key={login}
           classNames={"content"}
+          appear={true}
         >
           {login ? (
             <InnerContent>

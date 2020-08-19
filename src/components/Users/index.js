@@ -5,9 +5,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 0.3;
-  background-color: ${props => props.theme.primary};
+  background-color: ${({ theme }) => theme.primary};
   border-radius: 15px;
-  box-shadow: 5px 0 15px 0px ${props => props.theme.primary};
+  box-shadow: 3px 0 8px 0px ${({ theme }) => theme.primary};
   padding: 15px 15px;
   @media screen and (max-width: 580px) {
     display: none;
@@ -16,18 +16,17 @@ const Container = styled.div`
 
 const UsersContainer = styled.div`
   flex: 1 0 0;
-  overflow-y: scroll;
+  overflow: auto;
   ::-webkit-scrollbar {
     width: 12px;
-    display: ${props => props.scroll ? "null" : "none"};
     }
   ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px ${props => props.theme.secondary}; 
+    box-shadow: inset 0 0 6px ${({ theme }) => theme.secondary}; 
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    box-shadow: inset 0 0 10px ${props => props.theme.secondary};
+    box-shadow: inset 0 0 10px ${({ theme }) => theme.secondary};
   }
 `;
 
@@ -35,8 +34,8 @@ const UserContainer = styled.div`
   display: flex;
   align-items: center;
   min-height: 40px;
-  background-color: ${props => props.theme.secondary};
-  color: ${props => props.theme.primary};
+  background-color: ${({ theme }) => theme.secondary};
+  color: ${({ theme }) => theme.primary};
   border-radius: 10px;
   margin: 8px 5px;
   font-size: large;
@@ -62,26 +61,20 @@ const User = ({ user }) => {
 }
 
 export default function Users() {
-  const [users, setUsers] = useState([
-    { name: "brad", image: "https://randomuser.me/api/portraits/men/75.jpg" },
-    { name: "gibson", image: "https://randomuser.me/api/portraits/men/77.jpg" },
-    { name: "noah", image: "https://randomuser.me/api/portraits/men/17.jpg" }
-  ]),
-    [scroll, setScroll] = useState(false),
+  const [users, setUsers] = useState([]),
     usersContainer = useRef();
 
   useEffect(() => {
-    if (usersContainer.current.scrollHeight > usersContainer.current.clientHeight) {
-      setScroll(true);
-    }
-    else {
-      setScroll(false);
-    }
-  }, [users]);
+    setUsers([
+      { name: "brad", image: "https://randomuser.me/api/portraits/men/75.jpg" },
+      { name: "gibson", image: "https://randomuser.me/api/portraits/men/77.jpg" },
+      { name: "noah", image: "https://randomuser.me/api/portraits/men/17.jpg" }
+    ])
+  }, []);
 
   return (
     <Container>
-      <UsersContainer scroll={scroll} ref={usersContainer}>
+      <UsersContainer ref={usersContainer}>
         {users.map((item, index) => <User key={index} user={item} />)}
       </UsersContainer>
     </Container>

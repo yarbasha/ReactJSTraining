@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { Button } from '../../elements'
 
 const SideContainer = styled.div`
   flex: 0.35;
-  background-color: ${props => props.theme.primary};
+  background-color: ${({ theme }) => theme.primary};
   border-radius: 15px;
-  transform: ${props => props.transform} ;
+  transform: ${({ transform }) => transform} ;
   transition: transform linear 500ms ;
   @media only screen and (max-width: 580px) {
       display: none;
@@ -21,6 +22,15 @@ const InnerSide = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+  &.side-appear {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  &.side-appear-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+  }
   &.side-enter {
     opacity: 0;
     transform: scale(0.9);
@@ -42,31 +52,14 @@ const InnerSide = styled.div`
 
 const Title = styled.h1`
   font-size: 2.5em;
-  color: ${props => props.theme.secondary};
+  color: ${({ theme }) => theme.secondary};
   margin: 30px;
 `;
 
 const Text = styled.p`
-  color: ${props => props.theme.secondary};
+  color: ${({ theme }) => theme.secondary};
   margin-left: 10px;
   margin-right: 10px;
-`;
-
-const Button = styled.button`
-  width: 216px;
-  color:${props => props.theme.secondary};
-  background-color: transparent;
-  border: solid 2px ${props => props.theme.secondary};
-  border-radius: 25px;
-  height: 35px;
-  margin-left: 10px;
-  margin-right: 10px;
-  :hover, :focus {
-    color: ${props => props.theme.primary};
-    background: ${props => props.theme.secondary};
-    cursor: pointer;
-    outline: none;
-  }
 `;
 
 export default function SideContent({ login, translate, setTranslate, setLogin }) {
@@ -75,6 +68,10 @@ export default function SideContent({ login, translate, setTranslate, setLogin }
     setTranslate(state => !state);
     setLogin(state => !state);
   };
+
+  useEffect(() => {
+    setTranslate(false);
+  }, [setTranslate]);
 
   let transform = login ? "translateX(1%)" : "translateX(-186%)";
   if (translate) {
@@ -95,18 +92,19 @@ export default function SideContent({ login, translate, setTranslate, setLogin }
           timeout={850}
           key={login}
           classNames={"side"}
+          appear={true}
         >
           {login ? (
             <InnerSide>
               <Title>Hello, Friend!</Title>
               <Text>Enter your personal details and start journey with us</Text>
-              <Button onClick={toggle}>SIGN UP</Button>
+              <Button secondary onClick={toggle}>SIGN UP</Button>
             </InnerSide>
           ) : (
               <InnerSide>
                 <Title>Welcome back!</Title>
                 <Text>to keep connected with us please login with your personal info</Text>
-                <Button onClick={toggle}>SIGN IN</Button>
+                <Button secondary onClick={toggle}>SIGN IN</Button>
               </InnerSide>
             )}
         </CSSTransition>

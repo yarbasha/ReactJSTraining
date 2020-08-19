@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from '../../elements'
+
 
 const DrawerContainer = styled.div`
   position: fixed;
@@ -33,25 +35,19 @@ const List = styled.ul`
 
 const Item = styled.li`
   margin: 10px;
+  border-bottom: solid 1px ${({ theme }) => theme.secondary};
+  padding: 10px;
 `;
 
-const Link = styled.a`
-  color: ${props => props.theme.secondary};
-  font-size: x-large;
-  text-decoration: none;
-`;
-
-
-export default function Drawer({ open, toggleOpen, setLogin }) {
+export default function Drawer({ open, toggleOpen }) {
 
   return (
     <>
       <DrawerContainer open={open} >
         <List>
-          <Item><Link href="#">Home</Link></Item>
-          <Item><Link href="#">About</Link></Item>
-          <Item><Link href="#">Contact</Link></Item>
-          <Item><Link href="#" onClick={() => { setLogin(false); toggleOpen(); }}>Sign up</Link></Item>
+          <Item><Link to="/" onClick={toggleOpen}>Home</Link></Item>
+          <Item><Link to="/about" onClick={toggleOpen}>About</Link></Item>
+          <Item><Link to="/chat" onClick={toggleOpen}>Chat</Link></Item>
         </List>
       </DrawerContainer>
       <Backdrop open={open} onClick={toggleOpen} />
